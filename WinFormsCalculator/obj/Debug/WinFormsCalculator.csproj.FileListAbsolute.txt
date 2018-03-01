@@ -1,0 +1,9 @@
+C:\Users\Tomek\Documents\Visual Studio 2017\Projects\WindowsFormsApp5\WinFormsCalculator\bin\Debug\WinFormsCalculator.exe.config
+C:\Users\Tomek\Documents\Visual Studio 2017\Projects\WindowsFormsApp5\WinFormsCalculator\bin\Debug\WinFormsCalculator.exe
+C:\Users\Tomek\Documents\Visual Studio 2017\Projects\WindowsFormsApp5\WinFormsCalculator\bin\Debug\WinFormsCalculator.pdb
+C:\Users\Tomek\Documents\Visual Studio 2017\Projects\WindowsFormsApp5\WinFormsCalculator\obj\Debug\WinFormsCalculator.csprojResolveAssemblyReference.cache
+C:\Users\Tomek\Documents\Visual Studio 2017\Projects\WindowsFormsApp5\WinFormsCalculator\obj\Debug\WinFormsCalculator.Form1.resources
+C:\Users\Tomek\Documents\Visual Studio 2017\Projects\WindowsFormsApp5\WinFormsCalculator\obj\Debug\WinFormsCalculator.Properties.Resources.resources
+C:\Users\Tomek\Documents\Visual Studio 2017\Projects\WindowsFormsApp5\WinFormsCalculator\obj\Debug\WinFormsCalculator.csproj.GenerateResource.Cache
+C:\Users\Tomek\Documents\Visual Studio 2017\Projects\WindowsFormsApp5\WinFormsCalculator\obj\Debug\WinFormsCalculator.exe
+C:\Users\Tomek\Documents\Visual Studio 2017\Projects\WindowsFormsApp5\WinFormsCalculator\obj\Debug\WinFormsCalculator.pdb
