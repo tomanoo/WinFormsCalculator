@@ -110,6 +110,12 @@ namespace WinFormsCalculator
                     comma = true;
                 }
 
+                else if (value.Text == "0" && secondValue == null)
+                {
+                    secondValue += value.Text + ".";
+                    comma = true;
+                }
+
                 else if (comma && value.Text != ".")
                 {
                     secondValue += value.Text;
@@ -219,7 +225,7 @@ namespace WinFormsCalculator
                     currentLabel = 0;
                     break;
                 case 2:
-                    if (secondValue == "0." || secondValue == "-0." || secondValue.Length == 1)
+                    if (secondValue == "0." || secondValue == "-0.")// || secondValue.Length == 1)
                     {
                         secondValue = null;
                         //minus = false;
@@ -232,6 +238,8 @@ namespace WinFormsCalculator
                     {
                         if (secondValue != null)
                         {
+                            if (secondValue[secondValue.Length - 1] == '.')
+                                comma = false;
                             secondValue = secondValue.Remove(secondValue.Length - 1);
                             textBox1.Text = firstValue + " " + sign + " " + secondValue;
                             break;
