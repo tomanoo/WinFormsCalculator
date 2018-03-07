@@ -14,13 +14,10 @@ namespace WinFormsCalculator
     /******************************************************************
                                 THINGS TO DO
                                 
-    -> add "C" and "CE" methods
     -> limit the amount of numbers in a value
     -> improve deleting last index/sign
-    -> allow working with the result
     -> name methods properly - not these bad looking "buttonXX_click()"
-    -> if you start the second value with a "0" - make it "0."
-    -> same, but with "-" at the beginning
+    -> improve "-" at the beginning of second value
     -> later on, add keyboard usage
 
     ******************************************************************/
@@ -43,6 +40,7 @@ namespace WinFormsCalculator
         {
             InitializeComponent();
         }
+
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
@@ -99,7 +97,7 @@ namespace WinFormsCalculator
                 currentLabel = 2;
                 if (value.Text == "." && !comma)
                 {
-                    if (secondValue == null)
+                    if (secondValue == null || secondValue == "-")
                     {
                         secondValue += "0" + value.Text;
                     }
@@ -110,7 +108,7 @@ namespace WinFormsCalculator
                     comma = true;
                 }
 
-                else if (value.Text == "0" && secondValue == null)
+                else if (value.Text == "0" && (secondValue == null || secondValue == "-"))
                 {
                     secondValue += value.Text + ".";
                     comma = true;
@@ -136,25 +134,43 @@ namespace WinFormsCalculator
         private void button12_Click(object sender, EventArgs e)
         {
             var value = sender as Button;
-            if (!isFirstValueSet && !isSign)
+            if (!isResult)
             {
-                if (firstValue != "-" && firstValue != "0." && firstValue != "-0.")
+                if (!isFirstValueSet && !isSign)
+                {
+                    if (firstValue != "-" && firstValue != "0." && firstValue != "-0.")
+                    {
+                        sign = value.Text;
+                        ++currentLabel;
+                        if (sign == "-" && firstValue == null && !minus)
+                        {
+                            firstValue += sign;
+                            minus = true;
+                            textBox1.Text += sign;
+                            sign = null;
+                        }
+                        else if (firstValue != null && firstValue[firstValue.Length - 1] != '.')
+                        {
+                            isSign = true;
+                            isFirstValueSet = true;
+                            textBox1.Text += " " + sign + " ";
+                        }
+                    }
+                }
+                else if (isSign && secondValue == null && value.Text == "-")
+                {
+                    secondValue += value.Text;
+                    textBox1.Text += value.Text;
+                }
+            }
+            else
+            {
+                if (!isSign)
                 {
                     sign = value.Text;
                     ++currentLabel;
-                    if (sign == "-" && firstValue == null && !minus)
-                    {
-                        firstValue += sign;
-                        minus = true;
-                        textBox1.Text += sign;
-                        sign = null;
-                    }
-                    else if (firstValue != null && firstValue[firstValue.Length - 1] != '.')
-                    {
-                        isSign = true;
-                        isFirstValueSet = true;
-                        textBox1.Text += " " + sign + " ";
-                    }
+                    isSign = true;
+                    textBox1.Text += " " + sign + " ";
                 }
             }
         }
@@ -185,6 +201,8 @@ namespace WinFormsCalculator
             sign = null;
             isSign = false;
             secondValue = null;
+            currentLabel = 1;
+            isResult = true;
         }
 
         //deleting last index/sign
@@ -248,6 +266,38 @@ namespace WinFormsCalculator
                             currentLabel = 1;
                         break;
                     }
+            }
+        }
+
+        //clear all
+        private void button17_Click(object sender, EventArgs e)
+        {
+            textBox1.Text = firstValue = secondValue = sign = null;
+            result = currentLabel = 0;
+            comma = isFirstValueSet = isSign = isResult = minus = false;
+        }
+
+        //clear current label
+        private void button19_Click(object sender, EventArgs e)
+        {
+            switch (currentLabel)
+            {
+                case 0:
+                    textBox1.Text = firstValue = null;
+                    comma = isFirstValueSet = isSign = isResult = minus = false;
+                    break;
+                case 1:
+                    sign = null;
+                    --currentLabel;
+                    isSign = minus = false;
+                    textBox1.Text = firstValue;
+                    break;
+                case 2:
+                    secondValue = null;
+                    comma = minus = false;
+                    textBox1.Text = firstValue + " " + sign + " ";
+                    break;
+
             }
         }
     }
