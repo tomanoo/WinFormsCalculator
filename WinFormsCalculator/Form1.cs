@@ -31,7 +31,8 @@ namespace WinFormsCalculator
             isSign = false,             //has the "sign" been chosen
             isFirstValueSet = false,    //as it states
             minus = false,              //is there already a minus in front of first value
-            isResult = false;           //has the "=" sign been pressed
+            isResult = false,           //has the "=" sign been pressed
+            isZero = false;             //dividing by 0
         double result;                  //as it states
         int currentLabel = 0;           //label to control which value/sign to delete
 
@@ -191,18 +192,45 @@ namespace WinFormsCalculator
                     break;
                 case "/":
                     if (secondValue == "0.")
+                    {
                         MessageBox.Show("Nie dziel przez zero, cholero!");
+                        /*       firstValue = null;
+                               secondValue = null;
+                               sign = null;
+                               isSign = false;
+                               isFirstValueSet = false;
+                               currentLabel = 0;
+                               isResult = false;
+                               comma = false;
+                               isResult = false;
+                           break;*/
+                        isZero = true;
+
+                    }
                     else
                         result = Convert.ToDouble(firstValue) / Convert.ToDouble(secondValue);
                     break;
             }
-            textBox1.Text = Convert.ToString(result);
-            firstValue = Convert.ToString(result);
-            sign = null;
-            isSign = false;
-            secondValue = null;
-            currentLabel = 1;
-            isResult = true;
+            if (sign != null)
+            {
+                if (!isZero)
+                {
+                    textBox1.Text = Convert.ToString(result);
+                    firstValue = Convert.ToString(result);
+                    isSign = false;
+                    minus = false;
+                    sign = null;
+                    secondValue = null;
+                    currentLabel = 0;
+                    isResult = true;
+                }
+                else
+                {
+                    textBox1.Text = firstValue = secondValue = sign = null;
+                    minus = isSign = isFirstValueSet = isResult = comma = isZero = false;
+                    currentLabel = 0;
+                }
+            }
         }
 
         //deleting last index/sign
@@ -288,13 +316,14 @@ namespace WinFormsCalculator
                     break;
                 case 1:
                     sign = null;
-                    --currentLabel;
+                    currentLabel = 0;
                     isSign = minus = false;
                     textBox1.Text = firstValue;
                     break;
                 case 2:
                     secondValue = null;
                     comma = minus = false;
+                    currentLabel = 1;
                     textBox1.Text = firstValue + " " + sign + " ";
                     break;
 
