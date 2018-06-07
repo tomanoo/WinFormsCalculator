@@ -96,38 +96,41 @@ namespace WinFormsCalculator
             else
             {
                 currentLabel = 2;
-                if (value.Text == "." && !comma)
+                if (!isResult)
                 {
-                    if (secondValue == null || secondValue == "-")
+                    if (value.Text == "." && !comma)
                     {
-                        secondValue += "0" + value.Text;
+                        if (secondValue == null || secondValue == "-")
+                        {
+                            secondValue += "0" + value.Text;
+                        }
+                        else
+                        {
+                            secondValue += value.Text;
+                        }
+                        comma = true;
                     }
-                    else
+
+                    else if (value.Text == "0" && (secondValue == null || secondValue == "-"))
+                    {
+                        secondValue += value.Text + ".";
+                        comma = true;
+                    }
+
+                    else if (comma && value.Text != ".")
                     {
                         secondValue += value.Text;
                     }
-                    comma = true;
-                }
 
-                else if (value.Text == "0" && (secondValue == null || secondValue == "-"))
-                {
-                    secondValue += value.Text + ".";
-                    comma = true;
-                }
-
-                else if (comma && value.Text != ".")
-                {
-                    secondValue += value.Text;
-                }
-
-                else if (!comma && value.Text != ".")
-                {
-                    if (value.Text == ".")
-                        comma = true;
-                    secondValue += value.Text;
-                }
+                    else if (!comma && value.Text != ".")
+                    {
+                        if (value.Text == ".")
+                            comma = true;
+                        secondValue += value.Text;
+                    }
 
                 textBox1.Text = firstValue + " " + sign + " " + secondValue;
+                }
             }
         }
 
@@ -174,6 +177,7 @@ namespace WinFormsCalculator
                     textBox1.Text += " " + sign + " ";
                 }
             }
+            isResult = false;
         }
 
         //counting
@@ -220,6 +224,7 @@ namespace WinFormsCalculator
                     isSign = false;
                     minus = false;
                     sign = null;
+                    comma = false;
                     secondValue = null;
                     currentLabel = 0;
                     isResult = true;
@@ -252,9 +257,18 @@ namespace WinFormsCalculator
                     {
                         try
                         {
-                            if (firstValue[firstValue.Length - 1] == '.')
+                            if (firstValue[firstValue.Length - 2] == '.')
+                            {
                                 comma = false;
-                            firstValue = firstValue.Remove(firstValue.Length - 1);
+                                firstValue = firstValue.Remove(firstValue.Length - 2, 2);
+                            }
+                            else if (firstValue[firstValue.Length - 1] == '.')
+                            {
+                                firstValue = firstValue.Remove(firstValue.Length - 1);
+                                comma = false;
+                            }
+                            else
+                                firstValue = firstValue.Remove(firstValue.Length - 1);
                         }
                         catch
                         {
@@ -284,9 +298,19 @@ namespace WinFormsCalculator
                     {
                         if (secondValue != null)
                         {
-                            if (secondValue[secondValue.Length - 1] == '.')
+
+                            if (secondValue[secondValue.Length - 2] == '.')
+                            {
                                 comma = false;
-                            secondValue = secondValue.Remove(secondValue.Length - 1);
+                                secondValue = secondValue.Remove(secondValue.Length - 2, 2);
+                            }
+                            else if (secondValue[secondValue.Length - 1] == '.')
+                            {
+                                secondValue = secondValue.Remove(secondValue.Length - 1);
+                                comma = false;
+                            }
+                            else
+                                secondValue = secondValue.Remove(secondValue.Length - 1);
                             textBox1.Text = firstValue + " " + sign + " " + secondValue;
                             break;
                         }
